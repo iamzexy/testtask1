@@ -1,0 +1,58 @@
+<html>
+
+<body onload="hideRemoveButtons()">
+
+<p>
+    <script type="text/javascript">
+        <!--
+        function hideRemoveButtons() {
+            var e = document.getElementsByName("removeButton");
+            var i;
+            for (i=0; i<e.length; i++) {
+                e[i].style.display = 'none';
+            }
+        }
+        function toggle_visibility(id) {
+            var e = document.getElementsByName("removeButton");
+            var i;
+            for (i=0; i<e.length; i++) {
+            if(e[i].style.display == 'block')
+                e[i].style.display = 'none';
+            else
+                e[i].style.display = 'block';
+            }
+        }
+        //-->
+    </script>
+</p>
+    <form method = "post" action="filter">
+        <input type ="text" name="filter" placeholder="Поиск">
+        <button type="submit">Найти</button>
+        <button type="submit" value=null >Сброс</button>
+    </form>
+    <form method = "get" action="/newEntry">
+        <span style="float:left; clear: right; margin-right: 5px" ><button type="submit" >Добавить заметку</button></span>
+    </form>
+    <form id="form1" name="form1" method="post" action="">
+        <span style="float:left; clear: right;"><input type="button" value="Удалить заметку" onclick="toggle_visibility();"/></span>
+    </form>
+    <br/>
+    <br/>
+    <div>Все заметки</div>
+    {{#entries}}
+        <div>
+            <form action="/open" method="get">
+                <span style="float:left;"> <button type="submit" name="id" value="{{id}}">
+                    <b>{{title}}</b>
+                </button></span>
+            </form>
+
+            <form name="removeButton" method = "get" action="/remove" >
+                <span style="float:left;">
+                <button type="submit" name="id" value="{{id}}">x</button></span>
+            </form>
+        </div>
+        <br/>
+    {{/entries}}
+</body>
+</html>

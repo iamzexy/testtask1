@@ -1,0 +1,25 @@
+<html>
+<body>
+<form method = "get" action="/">
+    <button type="submit">Назад</button>
+</form>
+
+{{#entries}}
+    <form method = "get" action="/remove">
+        <button type="submit" name="id" value="{{id}}">Удалить заметку</button>
+    </form>
+    <div>
+        <form method = "post" action="update">
+            <textarea type = "text" name = "title" value="{{title}}" style="width: 300px;">{{title}}</textarea>
+            <br/>
+            <textarea name = "content" value="{{content}}" cols="40" rows="5">{{content}}</textarea>
+            <br/>
+            <button type="submit" name="id" value="{{id}}">Обновить</button>
+        </form>
+    </div>
+
+{{/entries}}
+
+
+</body>
+</html>
