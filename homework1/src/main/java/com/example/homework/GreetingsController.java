@@ -50,11 +50,17 @@ public class GreetingsController {
     @PostMapping("add")
     public String add(@RequestParam String title, @RequestParam String content, Map<String, Object> model) {
         Entry entry = new Entry(title, content);
-        if (entry.getContent()==null || entry.getContent().isEmpty()){
+        if (entry.getContent()==null || entry.getContent().isEmpty() || entry.getContent()!=null || !entry.getContent().isEmpty()){
             entry.setContent("пустая заметка");
         }
+        if (entry.getTitle()!=null && !entry.getTitle().isEmpty()) {
+            if (entry.getTitle().charAt(0) == ' ') {
+                entry.setTitle(entry.getTitle().trim());
+            }
+        }
+
         if (entry.getTitle()==null || entry.getTitle().isEmpty()){
-            entry.setTitle(content);
+            entry.setTitle(entry.getContent());
         }
 
         entryRepo.save(entry);
@@ -67,18 +73,18 @@ public class GreetingsController {
 
     @PostMapping("filter")
     public String filter(@RequestParam String filter, Map<String, Object> model) {
-        Iterable<Entry> entries = entryRepo.findAll();
-        if (filter != null && !filter.isEmpty()) {
-            Iterator<Entry> itr = entries.iterator();
-            while (itr.hasNext()){
-                Entry entry = itr.next();
-                boolean first = !entry.getTitle().contains(filter);
-                boolean second = !entry.getContent().contains(filter);
-                    if (first && second) {
-                        itr.remove();
-                    }
-            }
-        }
+        Iterable<Entry> entries = entryRepo.findByTitleContaining(filter);
+//        if (filter != null && !filter.isEmpty()) {
+//            Iterator<Entry> itr = entries.iterator();
+//            while (itr.hasNext()){
+//                Entry entry = itr.next();
+//                boolean first = !entry.getTitle().contains(filter);
+//                boolean second = !entry.getContent().contains(filter);
+//                    if (first && second) {
+//                        itr.remove();
+//                    }
+//            }
+//        }
         model.put("entries", entries);
         return "main";
     }
