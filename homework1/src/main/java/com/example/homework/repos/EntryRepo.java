@@ -9,4 +9,6 @@ public interface EntryRepo extends CrudRepository<Entry, Integer> {
     List<Entry> findByContent(String content);
     List<Entry> findByTitle(String title);
     List<Entry> findById(int id);
+    List<Entry> findByTitleContaining(String title);
+    List<Entry> findByContentContainingOrTitleContaining(String title, String content);
 }

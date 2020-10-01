@@ -73,18 +73,7 @@ public class GreetingsController {
 
     @PostMapping("filter")
     public String filter(@RequestParam String filter, Map<String, Object> model) {
-        Iterable<Entry> entries = entryRepo.findByTitleContaining(filter);
-//        if (filter != null && !filter.isEmpty()) {
-//            Iterator<Entry> itr = entries.iterator();
-//            while (itr.hasNext()){
-//                Entry entry = itr.next();
-//                boolean first = !entry.getTitle().contains(filter);
-//                boolean second = !entry.getContent().contains(filter);
-//                    if (first && second) {
-//                        itr.remove();
-//                    }
-//            }
-//        }
+        Iterable<Entry> entries = entryRepo.findByContentContainingOrTitleContaining(filter, filter);
         model.put("entries", entries);
         return "main";
     }
@@ -94,11 +83,6 @@ public class GreetingsController {
     @RequestMapping(value = "open", method = RequestMethod.GET)
     public String open(@RequestParam int id, Map<String, Object> model) {
         Iterable<Entry> entries;
-//        if (title != null && !title.isEmpty()){
-//            entries = entryRepo.findByTitle(title);
-//        } else {
-//            entries = entryRepo.findAll();
-//        }
         entries = entryRepo.findById(id);
         model.put("entries", entries);
         return "entry";
